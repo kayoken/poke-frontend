@@ -47,14 +47,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {loading ? (
-          <img src={logo} className="App-logo" alt="logo" />
-        ) : (
-          <PokeGrid>
-            <Cards pokemons={currentPage} />
-          </PokeGrid>
-        )}
+        <input
+          className="search-pokemon"
+          type="text"
+          placeholder="Search Pokemon.."
+        />
       </header>
+      {loading ? (
+        <img src={logo} className="App-logo" alt="logo" />
+      ) : (
+        <PokeGrid>
+          <Cards pokemons={currentPage} />
+        </PokeGrid>
+      )}
     </div>
   );
 }
