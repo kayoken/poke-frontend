@@ -53,13 +53,19 @@ function App() {
           placeholder="Search Pokemon.."
         />
       </header>
-      {loading ? (
-        <img src={logo} className="App-logo" alt="logo" />
-      ) : (
+      <section>
         <PokeGrid>
-          <Cards pokemons={currentPage} />
+          {loading ? (
+            <img src={logo} className="App-logo" alt="logo" />
+          ) : (
+            <Cards pokemons={currentPage} />
+          )}
         </PokeGrid>
-      )}
+      </section>
+      <footer>
+        <button>Previous</button>
+        <button>Next</button>
+      </footer>
     </div>
   );
 }

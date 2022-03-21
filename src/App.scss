@@ -48,13 +48,37 @@ button {
   background-color: #282c34;
   font-size: calc(10px + 2vmin);
   color: white;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 180px);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   .flex-items {
-    flex: 1 0 200px;
+    flex: 1 0 350px;
     cursor: pointer;
     text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .poke-placeholder {
+      max-width: 150px;
+    }
+  }
+}
+
+footer {
+  background-color: #282c34;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    background-color: rgb(246 201 29);
+    border: 2px solid rgb(55 97 167);
+    font-size: 16px;
+    width: 200px;
+    border-radius: 5px;
+    margin: 30px;
+    padding: 5px;
+    cursor: pointer;
   }
 }
