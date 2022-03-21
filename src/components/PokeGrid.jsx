@@ -1,7 +1,5 @@
-import React from "react";
-
-const PokeGrid = () => {
-  return <div>PokeGrid</div>;
+const PokeGrid = ({ children }) => {
+  return <div className="flex-grid">{children}</div>;
 };
 
 export default PokeGrid;

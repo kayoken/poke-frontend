@@ -40,3 +40,19 @@
 button {
   font-size: calc(10px + 2vmin);
 }
+
+.flex-grid {
+  background-color: #282c34;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .flex-items {
+    flex: 1 0 200px;
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+}
