@@ -1,45 +1,62 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import logo from "./poke-logo.png";
+import axios from "axios";
+import "./App.scss";
+import PokeGrid from "./components/PokeGrid";
+import Cards from "./components/Cards";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [allPokemon, setAllPokemon] = useState({});
+  const [currentPage, setCurrentPage] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    //timeout function for demonstration purposes
+    setTimeout(() => {
+      if (localStorage.getItem("pokemon") === null) {
+        fetchPokemonFromAPI();
+      } else {
+        fetchPokemonFromLocal();
+      }
+    }, 1000);
+  }, []);
+
+  const fetchPokemonFromAPI = async () => {
+    await axios({
+      method: "get",
+      url: "https://pokeapi.co/api/v2/pokemon/?limit=16",
+    }).then((res) => {
+      setCurrentPage(res.data);
+      return axios(
+        `https://pokeapi.co/api/v2/pokemon/?limit=${res.data.count}`
+      ).then((resAll) => {
+        setAllPokemon(resAll.data);
+        localStorage.setItem("pokemon", JSON.stringify(resAll.data));
+        localStorage.setItem("currentPage", JSON.stringify(res.data));
+        setLoading(false);
+      });
+    });
+  };
+
+  const fetchPokemonFromLocal = () => {
+    setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
+    setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
+    setLoading(false);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
+        {loading ? (
+          <img src={logo} className="App-logo" alt="logo" />
+        ) : (
+          <PokeGrid>
+            <Cards pokemons={currentPage} />
+          </PokeGrid>
+        )}
       </header>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
