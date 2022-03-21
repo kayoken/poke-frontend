@@ -8,6 +8,7 @@ import Cards from "./components/Cards";
 function App() {
   const [allPokemon, setAllPokemon] = useState({});
   const [currentPage, setCurrentPage] = useState({});
+  const [currentPokemon, setCurrentPokemon] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,10 +39,23 @@ function App() {
     });
   };
 
+  const fetchSinglePokemon = async (name) => {
+    return await axios({
+      method: "get",
+      url: `https://pokeapi.co/api/v2/pokemon/${name}`,
+    });
+  };
+
   const fetchPokemonFromLocal = () => {
     setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
     setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
     setLoading(false);
+  };
+
+  const handleCardClicked = (name) => {
+    fetchSinglePokemon(name).then((res) => {
+      console.log(res.data);
+    });
   };
 
   return (
@@ -58,7 +72,7 @@ function App() {
           {loading ? (
             <img src={logo} className="App-logo" alt="logo" />
           ) : (
-            <Cards pokemons={currentPage} />
+            <Cards onClick={handleCardClicked} pokemons={currentPage} />
           )}
         </PokeGrid>
       </section>

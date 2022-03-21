@@ -1,10 +1,14 @@
-import React from "react";
 import logo from "../poke-logo.png";
 
-const Cards = ({ pokemons }) => {
+const Cards = ({ pokemons, onClick }) => {
   return pokemons.results.map((pokemon) => (
-    <div className="flex-items" key={pokemon.name} id={pokemon.name}>
-      {pokemon.name}
+    <div
+      onClick={({ name }) => onClick(pokemon.name)}
+      className="poke-card"
+      key={pokemon.name}
+      id={pokemon.name}
+    >
+      <div className="poke-headline">{pokemon.name}</div>
       <img src={logo} className="poke-placeholder" alt="logo" />
     </div>
   ));
