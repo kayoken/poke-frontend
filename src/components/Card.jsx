@@ -1,16 +1,7 @@
 import logo from "../poke-logo.png";
-import { useEffect, useState } from "react";
 
-const Card = ({ pokemons, onClick }) => {
-  const [allPokemons, setPokemons] = useState([]);
-
-  useEffect(() => {
-    pokemons.results.map((pokemon) => {
-      console.log(pokemon);
-    });
-  }, []);
-
-  return pokemons.results.map((pokemon) => (
+const Card = ({ pokemon, onClick }) => {
+  return (
     <div
       onClick={() => onClick(pokemon.name)}
       className="poke-card"
@@ -20,7 +11,7 @@ const Card = ({ pokemons, onClick }) => {
       <div className="poke-headline">{pokemon.name}</div>
       <img src={logo} className="poke-placeholder" alt="logo" />
     </div>
-  ));
+  );
 };
 
 export default Card;

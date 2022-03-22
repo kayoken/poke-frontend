@@ -43,6 +43,19 @@ function App() {
     });
   };
 
+  const fetchPokemonFromLocal = () => {
+    setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
+    setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
+    setLoading(false);
+  };
+
+  const fetchNextPage = async (fetchURL) => {
+    return await axios({
+      method: "get",
+      url: fetchURL,
+    });
+  };
+
   const fetchAllPokemon = async () => {
     return await axios({
       method: "get",
@@ -57,17 +70,18 @@ function App() {
     });
   };
 
-  const fetchPokemonFromLocal = () => {
-    setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
-    setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
-    setLoading(false);
-  };
-
   const handleCardClicked = (name) => {
     fetchSinglePokemon(name).then((res) => {
       console.log(res.data);
     });
   };
+
+  let pokemonCards = [];
+  if (!loading) {
+    pokemonCards = currentPage.results.map((pokemon) => (
+      <Card key={pokemon.name} pokemon={pokemon} onClick={handleCardClicked} />
+    ));
+  }
 
   return (
     <div className="App">
@@ -83,7 +97,7 @@ function App() {
           {loading ? (
             <img src={logo} className="App-logo" alt="logo" />
           ) : (
-            <Card onClick={handleCardClicked} pokemons={currentPage} />
+            <div>{pokemonCards}</div>
           )}
         </PokeGrid>
       </section>
