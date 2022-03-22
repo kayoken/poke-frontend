@@ -3,7 +3,7 @@ import logo from "./poke-logo.png";
 import axios from "axios";
 import "./App.scss";
 import PokeGrid from "./components/PokeGrid";
-import Cards from "./components/Cards";
+import Card from "./components/Card";
 
 function App() {
   const [allPokemon, setAllPokemon] = useState({});
@@ -23,10 +23,7 @@ function App() {
   }, []);
 
   const fetchPokemonFromAPI = async () => {
-    await axios({
-      method: "get",
-      url: "https://pokeapi.co/api/v2/pokemon/?limit=16",
-    }).then((res) => {
+    fetchCurrentPage.then((res) => {
       setCurrentPage(res.data);
       return axios(
         `https://pokeapi.co/api/v2/pokemon/?limit=${res.data.count}`
@@ -36,6 +33,20 @@ function App() {
         localStorage.setItem("currentPage", JSON.stringify(res.data));
         setLoading(false);
       });
+    });
+  };
+
+  const fetchCurrentPage = async () => {
+    return await axios({
+      method: "get",
+      url: "https://pokeapi.co/api/v2/pokemon/?limit=16",
+    });
+  };
+
+  const fetchAllPokemon = async () => {
+    return await axios({
+      method: "get",
+      url: `https://pokeapi.co/api/v2/pokemon/?limit=${currentPage.count}`,
     });
   };
 
@@ -72,7 +83,7 @@ function App() {
           {loading ? (
             <img src={logo} className="App-logo" alt="logo" />
           ) : (
-            <Cards onClick={handleCardClicked} pokemons={currentPage} />
+            <Card onClick={handleCardClicked} pokemons={currentPage} />
           )}
         </PokeGrid>
       </section>
