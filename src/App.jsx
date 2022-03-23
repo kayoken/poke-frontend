@@ -52,7 +52,7 @@ function App() {
   };
 
   const fetchNextPage = async (fetchURL) => {
-    return axios({
+    return await axios({
       method: "get",
       url: fetchURL,
     });
@@ -78,6 +78,8 @@ function App() {
     });
   };
 
+  const handlePrevNext = () => {};
+
   let pokemonCards = [];
   if (!loading) {
     pokemonCards = currentPage.results.map((pokemon) => (
@@ -88,7 +90,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <PrevNext />
+      <PrevNext onClick={handlePrevNext} />
       <PokeGrid>
         {loading ? (
           <img src={logo} className="App-logo" alt="logo" />
