@@ -97,7 +97,7 @@ function App() {
           {loading ? (
             <img src={logo} className="App-logo" alt="logo" />
           ) : (
-            <div>{pokemonCards}</div>
+            <>{pokemonCards}</>
           )}
         </PokeGrid>
       </section>
