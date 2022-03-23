@@ -18,9 +18,9 @@ function App() {
     setTimeout(() => {
       if (localStorage.getItem("pokemon") === null) {
         fetchPokemonFromAPI();
-      } else {
-        fetchPokemonFromLocal();
+        return;
       }
+      fetchPokemonFromLocal();
     }, 1000);
   }, []);
 
