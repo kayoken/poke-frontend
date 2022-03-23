@@ -35,7 +35,8 @@ function App() {
         setAllPokemon(responseAll.data);
         localStorage.setItem("pokemon", JSON.stringify(responseAll.data));
         setLoading(false);
-      });
+      })
+      .catch((error) => console.log(error.response));
   };
 
   const fetchCurrentPage = () => {
@@ -52,30 +53,23 @@ function App() {
     });
   };
 
+  const fetchSinglePokemon = (name) => {
+    return axios({
+      method: "get",
+      url: `https://pokeapi.co/api/v2/pokemon/${name}`,
+    });
+  };
+
   const fetchPokemonFromLocal = () => {
     setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
     setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
     setLoading(false);
   };
 
-  const fetchNextPage = (fetchURL) => {
+  const fetchPage = (fetchURL) => {
     return axios({
       method: "get",
       url: fetchURL,
-    });
-  };
-
-  const fetchPreviousPage = (fetchURL) => {
-    return axios({
-      method: "get",
-      url: fetchURL,
-    });
-  };
-
-  const fetchSinglePokemon = (name) => {
-    return axios({
-      method: "get",
-      url: `https://pokeapi.co/api/v2/pokemon/${name}`,
     });
   };
 
@@ -97,7 +91,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <PrevNext onClick={handlePrevNext} />
+      <PrevNext currentPage={currentPage} />
       <PokeGrid>
         {loading ? (
           <img src={logo} className="App-logo" alt="logo" />
