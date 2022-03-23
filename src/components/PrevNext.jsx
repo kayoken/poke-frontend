@@ -1,10 +1,6 @@
 import React from "react";
 
-const PrevNext = ({ currentPage }) => {
-  function handleClick(url) {
-    console.log(url);
-  }
-
+const PrevNext = ({ currentPage, onButtonClick }) => {
   const previousUrl = currentPage.previous;
   const nextUrl = currentPage.next;
 
@@ -12,11 +8,16 @@ const PrevNext = ({ currentPage }) => {
     <footer>
       <button
         disabled={previousUrl === null && true}
-        onClick={() => handleClick(currentPage.previous)}
+        onClick={() => onButtonClick(currentPage.previous)}
       >
         Previous
       </button>
-      <button onClick={() => handleClick(currentPage.next)}>Next</button>
+      <button
+        disabled={nextUrl === null && true}
+        onClick={() => onButtonClick(currentPage.next)}
+      >
+        Next
+      </button>
     </footer>
   );
 };

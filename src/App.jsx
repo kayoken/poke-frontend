@@ -79,7 +79,15 @@ function App() {
     });
   };
 
-  const handlePrevNext = () => {};
+  const handlePrevNext = (url) => {
+    axios({
+      method: "get",
+      url: url,
+    }).then((response) => {
+      setCurrentPage(response.data);
+      localStorage.setItem("currentPage", JSON.stringify(response.data));
+    });
+  };
 
   let pokemonCards = [];
   if (!loading) {
@@ -91,7 +99,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <PrevNext currentPage={currentPage} />
+      <PrevNext onButtonClick={handlePrevNext} currentPage={currentPage} />
       <PokeGrid>
         {loading ? (
           <img src={logo} className="App-logo" alt="logo" />
