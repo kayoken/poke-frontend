@@ -42,7 +42,7 @@ function App() {
   const fetchCurrentPage = () => {
     return axios({
       method: "get",
-      url: "https://pokeapi.co/api/v2/pokemon/?limit=4",
+      url: "https://pokeapi.co/api/v2/pokemon/?limit=8",
     });
   };
 
@@ -66,13 +66,6 @@ function App() {
     setLoading(false);
   };
 
-  const fetchPage = (fetchURL) => {
-    return axios({
-      method: "get",
-      url: fetchURL,
-    });
-  };
-
   const handleCardClicked = (name) => {
     fetchSinglePokemon(name).then((res) => {
       console.log(res.data);
@@ -80,12 +73,14 @@ function App() {
   };
 
   const handlePrevNext = (url) => {
+    setLoading(true);
     axios({
       method: "get",
       url: url,
     }).then((response) => {
       setCurrentPage(response.data);
       localStorage.setItem("currentPage", JSON.stringify(response.data));
+      setLoading(false);
     });
   };
 
