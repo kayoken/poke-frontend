@@ -24,18 +24,18 @@ function App() {
     }, 1000);
   }, []);
 
-  const fetchPokemonFromAPI = async () => {
-    fetchCurrentPage().then((res) => {
-      setCurrentPage(res.data);
-      return axios(
-        `https://pokeapi.co/api/v2/pokemon/?limit=${res.data.count}`
-      ).then((resAll) => {
-        setAllPokemon(resAll.data);
-        localStorage.setItem("pokemon", JSON.stringify(resAll.data));
-        localStorage.setItem("currentPage", JSON.stringify(res.data));
+  const fetchPokemonFromAPI = () => {
+    fetchCurrentPage()
+      .then((response) => {
+        setCurrentPage(response.data);
+        localStorage.setItem("currentPage", JSON.stringify(response.data));
+        return fetchAllPokemon(response.data.count);
+      })
+      .then((responseAll) => {
+        setAllPokemon(responseAll.data);
+        localStorage.setItem("pokemon", JSON.stringify(responseAll.data));
         setLoading(false);
       });
-    });
   };
 
   const fetchCurrentPage = () => {
@@ -45,28 +45,35 @@ function App() {
     });
   };
 
+  const fetchAllPokemon = (count) => {
+    return axios({
+      method: "get",
+      url: `https://pokeapi.co/api/v2/pokemon/?limit=${count}`,
+    });
+  };
+
   const fetchPokemonFromLocal = () => {
     setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
     setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
     setLoading(false);
   };
 
-  const fetchNextPage = async (fetchURL) => {
-    return await axios({
+  const fetchNextPage = (fetchURL) => {
+    return axios({
       method: "get",
       url: fetchURL,
     });
   };
 
-  const fetchAllPokemon = async () => {
-    return await axios({
+  const fetchPreviousPage = (fetchURL) => {
+    return axios({
       method: "get",
-      url: `https://pokeapi.co/api/v2/pokemon/?limit=${currentPage.count}`,
+      url: fetchURL,
     });
   };
 
-  const fetchSinglePokemon = async (name) => {
-    return await axios({
+  const fetchSinglePokemon = (name) => {
+    return axios({
       method: "get",
       url: `https://pokeapi.co/api/v2/pokemon/${name}`,
     });
