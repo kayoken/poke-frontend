@@ -1,6 +1,20 @@
 import logo from "../poke-logo.png";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Card = ({ pokemon, onClick }) => {
+  const [details, setDetails] = useState({});
+
+  useEffect(() => {
+    getDetails().then((res) => {
+      setDetails(res.data);
+    });
+  }, []);
+
+  const getDetails = async () => {
+    return axios.get(pokemon.url);
+  };
+
   return (
     <div
       onClick={() => onClick(pokemon.name)}
@@ -9,7 +23,11 @@ const Card = ({ pokemon, onClick }) => {
       id={pokemon.name}
     >
       <div className="poke-headline">{pokemon.name}</div>
-      <img src={logo} className="poke-placeholder" alt="logo" />
+      <img
+        src={details.sprites.front_default}
+        className="poke-placeholder"
+        alt="logo"
+      />
     </div>
   );
 };

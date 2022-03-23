@@ -4,6 +4,8 @@ import axios from "axios";
 import "./App.scss";
 import PokeGrid from "./components/PokeGrid";
 import Card from "./components/Card";
+import Header from "./components/Header";
+import PrevNext from "./components/PrevNext";
 
 function App() {
   const [allPokemon, setAllPokemon] = useState({});
@@ -23,7 +25,7 @@ function App() {
   }, []);
 
   const fetchPokemonFromAPI = async () => {
-    fetchCurrentPage.then((res) => {
+    fetchCurrentPage().then((res) => {
       setCurrentPage(res.data);
       return axios(
         `https://pokeapi.co/api/v2/pokemon/?limit=${res.data.count}`
@@ -36,10 +38,10 @@ function App() {
     });
   };
 
-  const fetchCurrentPage = async () => {
-    return await axios({
+  const fetchCurrentPage = () => {
+    return axios({
       method: "get",
-      url: "https://pokeapi.co/api/v2/pokemon/?limit=16",
+      url: "https://pokeapi.co/api/v2/pokemon/?limit=4",
     });
   };
 
@@ -50,7 +52,7 @@ function App() {
   };
 
   const fetchNextPage = async (fetchURL) => {
-    return await axios({
+    return axios({
       method: "get",
       url: fetchURL,
     });
@@ -85,26 +87,15 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <input
-          className="search-pokemon"
-          type="text"
-          placeholder="Search Pokemon.."
-        />
-      </header>
-      <section>
-        <PokeGrid>
-          {loading ? (
-            <img src={logo} className="App-logo" alt="logo" />
-          ) : (
-            <>{pokemonCards}</>
-          )}
-        </PokeGrid>
-      </section>
-      <footer>
-        <button>Previous</button>
-        <button>Next</button>
-      </footer>
+      <Header />
+      <PrevNext />
+      <PokeGrid>
+        {loading ? (
+          <img src={logo} className="App-logo" alt="logo" />
+        ) : (
+          <>{pokemonCards}</>
+        )}
+      </PokeGrid>
     </div>
   );
 }
