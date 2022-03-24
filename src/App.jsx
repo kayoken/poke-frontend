@@ -24,8 +24,26 @@ function App() {
     }, 1000);
   }, []);
 
-  const fetchPokemonFromAPI = () => {
-    fetchCurrentPage()
+  const fetchCurrentPage = async () => {
+    const currentPage = await axios({
+      method: "get",
+      url: "https://pokeapi.co/api/v2/pokemon/?limit=8",
+    });
+
+    return currentPage;
+  };
+
+  const fetchAllPokemon = async (count) => {
+    const allPokemon = await axios({
+      method: "get",
+      url: `https://pokeapi.co/api/v2/pokemon/?limit=${count}`,
+    });
+
+    return allPokemon;
+  };
+
+  const fetchPokemonFromAPI = async () => {
+    await fetchCurrentPage()
       .then((response) => {
         setCurrentPage(response.data);
         localStorage.setItem("currentPage", JSON.stringify(response.data));
@@ -39,24 +57,18 @@ function App() {
       .catch((error) => console.log(error.response));
   };
 
-  const fetchCurrentPage = () => {
-    return axios({
-      method: "get",
-      url: "https://pokeapi.co/api/v2/pokemon/?limit=8",
-    });
-  };
-
-  const fetchAllPokemon = (count) => {
-    return axios({
-      method: "get",
-      url: `https://pokeapi.co/api/v2/pokemon/?limit=${count}`,
-    });
-  };
-
-  const fetchSinglePokemon = (name) => {
-    return axios({
+  const fetchSinglePokemon = async (name) => {
+    const singlePokemon = await axios({
       method: "get",
       url: `https://pokeapi.co/api/v2/pokemon/${name}`,
+    });
+
+    return singlePokemon;
+  };
+
+  const handleCardClicked = (name) => {
+    fetchSinglePokemon(name).then((res) => {
+      console.log(res.data);
     });
   };
 
@@ -64,12 +76,6 @@ function App() {
     setAllPokemon(JSON.parse(localStorage.getItem("pokemon") || "{}"));
     setCurrentPage(JSON.parse(localStorage.getItem("currentPage") || "{}"));
     setLoading(false);
-  };
-
-  const handleCardClicked = (name) => {
-    fetchSinglePokemon(name).then((res) => {
-      console.log(res.data);
-    });
   };
 
   const handlePrevNext = (url) => {
