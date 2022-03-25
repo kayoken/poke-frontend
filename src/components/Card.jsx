@@ -2,7 +2,7 @@ import logo from "../poke-logo.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const Card = ({ pokemon, onClick }) => {
+const Card = ({ pokemon, onClick, activeCard }) => {
   const [details, setDetails] = useState({});
   const [isBusy, setIsBusy] = useState(true);
 
@@ -20,8 +20,8 @@ const Card = ({ pokemon, onClick }) => {
   return (
     !isBusy && (
       <div
-        onClick={() => onClick(pokemon.name)}
-        className="poke-card"
+        onClick={(e) => onClick(pokemon.name, e)}
+        className={`poke-card ${pokemon.name === activeCard && "active"}`}
         key={pokemon.name}
         id={pokemon.name}
       >

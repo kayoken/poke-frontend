@@ -12,6 +12,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState({});
   const [currentPokemon, setCurrentPokemon] = useState({});
   const [loading, setLoading] = useState(true);
+  const [activeCard, setActiveCard] = useState("");
 
   useEffect(() => {
     //timeout function for demonstration purposes
@@ -67,9 +68,8 @@ function App() {
   };
 
   const handleCardClicked = (name) => {
-    fetchSinglePokemon(name).then((res) => {
-      console.log(res.data);
-    });
+    document.body.style.overflowY = "hidden";
+    setActiveCard(name);
   };
 
   const fetchPokemonFromLocal = () => {
@@ -93,7 +93,12 @@ function App() {
   let pokemonCards = [];
   if (!loading) {
     pokemonCards = currentPage.results.map((pokemon) => (
-      <Card key={pokemon.name} pokemon={pokemon} onClick={handleCardClicked} />
+      <Card
+        activeCard={activeCard}
+        key={pokemon.name}
+        pokemon={pokemon}
+        onClick={handleCardClicked}
+      />
     ));
   }
 
