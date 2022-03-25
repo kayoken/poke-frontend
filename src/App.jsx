@@ -68,6 +68,11 @@ function App() {
   };
 
   const handleCardClicked = (name) => {
+    if (activeCard === name) {
+      document.body.style.overflowY = "scroll";
+      setActiveCard("");
+      return;
+    }
     document.body.style.overflowY = "hidden";
     setActiveCard(name);
   };
