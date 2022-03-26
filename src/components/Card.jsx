@@ -18,6 +18,13 @@ const Card = ({ pokemon, onClick, activeCard }) => {
     return details;
   };
 
+  let abilities = [];
+  if (details.abilities !== undefined) {
+    abilities = details.abilities.map((ability) => {
+      return <div>{ability.ability.name}</div>;
+    });
+  }
+
   return (
     !isBusy && (
       <div
@@ -32,6 +39,7 @@ const Card = ({ pokemon, onClick, activeCard }) => {
           className="poke-placeholder"
           alt="logo"
         />
+        <div className="pokemon-abilities">{abilities}</div>
       </div>
     )
   );
