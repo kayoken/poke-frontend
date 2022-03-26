@@ -19,9 +19,9 @@ const Card = ({ pokemon, onClick, activeCard }) => {
   };
 
   let abilities = [];
-  if (details.abilities !== undefined) {
+  if (details.abilities) {
     abilities = details.abilities.map((ability) => {
-      return <div>{ability.ability.name}</div>;
+      return <div key={ability.ability.name}>{ability.ability.name}</div>;
     });
   }
 
