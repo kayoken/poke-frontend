@@ -6,6 +6,7 @@ import Grid from "./components/Grid";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import PrevNext from "./components/PrevNext";
+import PokemonCards from "./components/PokemonCards";
 
 function App() {
   const [allPokemon, setAllPokemon] = useState({});
@@ -95,18 +96,6 @@ function App() {
     });
   };
 
-  let pokemonCards = [];
-  if (!loading) {
-    pokemonCards = currentPage.results.map((pokemon) => (
-      <Card
-        activeCard={activeCard}
-        key={pokemon.name}
-        pokemon={pokemon}
-        onClick={handleCardClicked}
-      />
-    ));
-  }
-
   return (
     <div className="App">
       <Header />
@@ -115,7 +104,11 @@ function App() {
         {loading ? (
           <img src={logo} className="App-logo" alt="logo" />
         ) : (
-          <>{pokemonCards}</>
+          <PokemonCards
+            handleCardClicked={handleCardClicked}
+            activeCard={activeCard}
+            cards={currentPage}
+          />
         )}
       </Grid>
     </div>
