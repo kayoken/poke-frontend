@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import logo from "./poke-logo.png";
 import axios from "axios";
 import "./App.scss";
-import PokeGrid from "./components/PokeGrid";
+import Grid from "./components/Grid";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import PrevNext from "./components/PrevNext";
@@ -58,14 +58,14 @@ function App() {
       .catch((error) => console.log(error.response));
   };
 
-  const fetchSinglePokemon = async (name) => {
-    const singlePokemon = await axios({
-      method: "get",
-      url: `https://pokeapi.co/api/v2/pokemon/${name}`,
-    });
+  // const fetchSinglePokemon = async (name) => {
+  //   const singlePokemon = await axios({
+  //     method: "get",
+  //     url: `https://pokeapi.co/api/v2/pokemon/${name}`,
+  //   });
 
-    return singlePokemon;
-  };
+  //   return singlePokemon;
+  // };
 
   const handleCardClicked = (name) => {
     if (activeCard === name) {
@@ -111,13 +111,13 @@ function App() {
     <div className="App">
       <Header />
       <PrevNext onButtonClick={handlePrevNext} currentPage={currentPage} />
-      <PokeGrid>
+      <Grid>
         {loading ? (
           <img src={logo} className="App-logo" alt="logo" />
         ) : (
           <>{pokemonCards}</>
         )}
-      </PokeGrid>
+      </Grid>
     </div>
   );
 }

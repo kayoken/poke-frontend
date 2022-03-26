@@ -13,8 +13,9 @@ const Card = ({ pokemon, onClick, activeCard }) => {
     });
   }, []);
 
-  const getDetails = () => {
-    return axios.get(pokemon.url);
+  const getDetails = async () => {
+    const details = await axios.get(pokemon.url);
+    return details;
   };
 
   return (
